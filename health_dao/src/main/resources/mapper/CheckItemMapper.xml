@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yanglei.mapper.CheckItemMapper">
+
+    <insert id="add">
+        INSERT INTO t_checkitem (
+        <include refid="Sql.checkItem"/>
+        )
+        VALUES (
+        NULL,
+        #{code},
+        #{name},
+        #{sex},
+        #{age},
+        #{price},
+        #{type},
+        #{attention},
+        #{remark}
+        )
+    </insert>
+
+    <update id="updateByCode">
+        UPDATE t_checkitem
+        SET
+            code=#{code},
+            name=#{name},
+            sex=#{sex},
+            age=#{age},
+            price=#{price},
+            type=#{type},
+            attention=#{attention},
+            remark=#{remark}
+        WHERE code=#{code}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM health.t_checkitem
+        WHERE code=#{code}
+    </delete>
+
+    <select id="findPage" resultType="CheckItem">
+        SELECT
+        <include refid="Sql.checkItem"/>
+        FROM t_checkitem
+        <if test="queryString!=null and queryString.length() > 0">
+            WHERE code=#{code} OR name=#{queryString}
+        </if>
+    </select>
+
+    <select id="selectByCode" resultType="CheckItem">
+        SELECT
+        <include refid="Sql.checkItem"/>
+        FROM t_checkitem
+        WHERE code=#{code}
+    </select>
+
+
+</mapper>
