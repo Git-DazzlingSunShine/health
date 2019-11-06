@@ -1,22 +1,28 @@
-package com.yanglei.entry;
+package com.yanglei.content;
 
 /**
  * 消息常量
  */
 public class MessageConstant {
-    public static final String DELETE_CHECKITEM_FAIL = "删除检查项失败";
-    public static final String DELETE_CHECKITEM_SUCCESS = "删除检查项成功";
+    public static final String ADD_CHECKGROUP_FAIL = "新增检查组失败";
+    public static final String ADD_CHECKGROUP_SUCCESS = "新增检查组成功";
     public static final String ADD_CHECKITEM_SUCCESS = "新增检查项成功";
     public static final String ADD_CHECKITEM_FAIL = "新增检查项失败";
+    public static final String DELETE_CHECKITEM_FAIL = "删除检查项失败";
+    public static final String DELETE_CHECKITEM_SUCCESS = "删除检查项成功";
+    public static final String DELETE_SETMEAL_SUCCESS = "删除检查项成功";
+    public static final String DELETE_SETMEAL_FAIL = "删除检查项失败";
     public static final String CHECKITEM_EXISTED = "检查项编号已存在";
     public static final String CHECKITEM_IS_NO = "检查项编号不存在";
+    public static final String CHECKITEM_IS_EMPTY = "请勾选检查项";
+    public static final String CHECKGROUP_IS_EMPTY = "请勾选检查组";
     public static final String EDIT_CHECKITEM_FAIL = "编辑检查项失败";
     public static final String EDIT_CHECKITEM_SUCCESS = "编辑检查项成功";
+    public static final String EDIT_SETMEAL_SUCCESS = "编辑套餐成功";
+    public static final String EDIT_SETMEAL_FAIL = "编辑套餐失败";
     public static final String QUERY_CHECKITEM_SUCCESS = "查询检查项成功";
     public static final String QUERY_CHECKITEM_FAIL = "查询检查项失败";
     public static final String UPLOAD_SUCCESS = "上传成功";
-    public static final String ADD_CHECKGROUP_FAIL = "新增检查组失败";
-    public static final String ADD_CHECKGROUP_SUCCESS = "新增检查组成功";
     public static final String DELETE_CHECKGROUP_FAIL = "删除检查组失败";
     public static final String DELETE_CHECKGROUP_SUCCESS = "删除检查组成功";
     public static final String QUERY_CHECKGROUP_SUCCESS = "查询检查组成功";

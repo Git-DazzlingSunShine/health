@@ -1,15 +1,18 @@
 package com.yanglei.web;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.yanglei.entry.MessageConstant;
+import com.yanglei.content.MessageConstant;
 import com.yanglei.entry.PageResult;
 import com.yanglei.entry.QueryPageBean;
 import com.yanglei.entry.Result;
+import com.yanglei.exception.ForeignAssociationException;
 import com.yanglei.pojo.CheckItem;
 import com.yanglei.service.CheckItemService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/checkitem")
@@ -27,7 +30,7 @@ public class CheckItemController {
     @RequestMapping("add")
     public Result add(@RequestBody CheckItem checkItem) {
         Result result = codeUnique(checkItem.getCode());
-        if (result.isFlag()) {
+        if (!result.isFlag()) {
             return result;
         }
 
@@ -72,9 +75,9 @@ public class CheckItemController {
     @RequestMapping("codeUnique")
     public Result codeUnique(String code) {
         if (checkItemService.selectByCode(code) == null) {
-            return new Result(false, MessageConstant.CHECKITEM_EXISTED);
+            return new Result(true, MessageConstant.CHECKITEM_IS_NO);
         }
-        return new Result(true, MessageConstant.CHECKITEM_IS_NO);
+        return new Result(false, MessageConstant.CHECKITEM_EXISTED);
     }
 
     /**
@@ -94,19 +97,42 @@ public class CheckItemController {
     }
 
     /**
-     * 根据编码删除检查项
+     * 根据id删除检查项
      *
-     * @param code
+     * @param id
      * @return
      */
     @RequestMapping("delete")
-    public Result deleteByCode(String code) {
+    public Result deleteByCode(Integer id) {
+        Result result = new Result(false, MessageConstant.DELETE_CHECKITEM_FAIL);
         try {
-            checkItemService.delete(code);
-            return new Result(true, MessageConstant.DELETE_CHECKITEM_SUCCESS);
+            if (checkItemService.delete(id)) {
+                result.setFlag(true);
+                result.setMessage(MessageConstant.DELETE_CHECKITEM_SUCCESS);
+            }
+        } catch (ForeignAssociationException e) {
+            result.setMessage(e.getMessage());
         } catch (Exception e) {
-            return new Result(false, MessageConstant.DELETE_CHECKITEM_FAIL);
+            return result;
         }
+        return result;
     }
+
+    /**
+     * 查询全部的检查项目
+     *
+     * @return 标椎实体对象
+     */
+    @RequestMapping("findAll")
+    public Result findAll() {
+        List<CheckItem> checkitems = checkItemService.findAll();
+        Result result = new Result(false, "");
+        if (checkitems != null && checkitems.size() > 0) {
+            result.setFlag(true);
+            result.setData(checkitems);
+        }
+        return result;
+    }
+
 
 }

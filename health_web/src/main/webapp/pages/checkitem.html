@@ -228,8 +228,16 @@
                 code: [{required: true, message: '项目编码为必填项', trigger: 'blur'}],
                 name: [{required: true, message: '项目名称为必填项', trigger: 'blur'}],
                 sex: [{required: true, message: '性别为必选项', trigger: ['blur', 'change']}],
-                age: [{required: true, message: '请输入年龄', trigger: 'change'},{type: 'number', message: '年龄必须为数字值', trigger: ['blur']} ],
-                price: [{required: true, message: '请输入价格', trigger: 'change'},{type: 'number', message: '年龄必须为数字值', trigger: ['blur']}]
+                age: [{required: true, message: '请输入年龄', trigger: 'change'}, {
+                    type: 'number',
+                    message: '年龄必须为数字值',
+                    trigger: ['blur']
+                }],
+                price: [{required: true, message: '请输入价格', trigger: 'change'}, {
+                    type: 'number',
+                    message: '年龄必须为数字值',
+                    trigger: ['blur']
+                }]
 
             }
         },
@@ -282,7 +290,6 @@
                             message: "请检查表单数据",
                             type: "erroe"
                         })
-
                     }
                 });
 
@@ -323,18 +330,19 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    axios.post("/checkitem/delete.do", null, {
+                    axios.get("/checkitem/delete.do", {
                             params: {
-                                code: row.code
+                                id: row.id
                             }
                         }
                     ).then((result) => {
-                        if (result.data.code) {
-                            this.$message({
-                                type: 'success',
-                                message: '删除成功!'
-                            });
+                        if (result.data.flag) {
+                            this.findPage();
                         }
+                        this.$message({
+                            type: result.data.flag ? 'success' : "error",
+                            message: result.data.message
+                        });
                     })
                 }).catch(() => {
                     this.$message({

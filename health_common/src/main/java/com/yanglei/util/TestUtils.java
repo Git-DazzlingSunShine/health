@@ -1,5 +1,4 @@
 package com.yanglei.util;
 
-public class Test {
-
+public class TestUtils {
 }

@@ -38,7 +38,7 @@
 
     <delete id="delete">
         DELETE FROM health.t_checkitem
-        WHERE code=#{code}
+        WHERE id=#{id}
     </delete>
 
     <select id="findPage" resultType="CheckItem">
@@ -55,6 +55,19 @@
         <include refid="Sql.checkItem"/>
         FROM t_checkitem
         WHERE code=#{code}
+    </select>
+
+    <!--根据检查项id查询中间关系表-->
+    <select id="findCountByCheckItemId" resultType="java.lang.Long">
+        SELECT COUNT(*)
+        FROM health.t_checkgroup_checkitem
+        WHERE checkitem_id=#{id}
+    </select>
+
+    <select id="findAll" resultType="com.yanglei.pojo.CheckItem">
+        SELECT
+        id,code,name,remark
+        FROM health.t_checkitem
     </select>
 
 

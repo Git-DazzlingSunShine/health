@@ -17,12 +17,20 @@
          http://www.springframework.org/schema/tx 
          http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <!--装配事务管理器-->
-    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource"/>
+    <!-- 读取redis pool的配置文件 -->
+    <context:property-placeholder location="classpath:spring/redis.properties" />
+
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxTotal" value="${redis_maxTotal}"></property>
+        <property name="minIdle" value="${redis_minIdle}"></property>
+        <property name="maxIdle" value="${redis_maxIdle}"></property>
     </bean>
 
-    <!--事务注解驱动-->
-    <tx:annotation-driven proxy-target-class="true" transaction-manager="transactionManager"/>
-
+    <bean id="jedisPool" class="redis.clients.jedis.JedisPool">
+        <constructor-arg name="poolConfig" ref="jedisPoolConfig"/>
+        <constructor-arg name="host" value="${redis_ip}"/>
+        <constructor-arg name="port" value="${redis_port}" />
+        <constructor-arg name="timeout" value="${redis_timeout}"/>
+        <constructor-arg name="password" value="${redis_password}"/>
+    </bean>
 </beans>

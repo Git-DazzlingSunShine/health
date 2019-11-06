@@ -17,7 +17,7 @@
          http://www.springframework.org/schema/tx 
          http://www.springframework.org/schema/tx/spring-tx.xsd">
     <!--mvc 注解驱动-->
-    <mvc:annotation-driven></mvc:annotation-driven>
+    <mvc:annotation-driven/>
 
     <!-- dubbo包扫描-->
     <dubbo:annotation package="com.yanglei.web"/>
@@ -27,4 +27,14 @@
     <dubbo:application name="health-web"/>
     <!--    消费端启动检查-->
     <dubbo:consumer check="false" timeout="1200000"/>
+
+    <!--文件上传组件-->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="104857600" />
+        <property name="maxInMemorySize" value="4096" />
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+
+    <import resource="applicationContext-redis.xml"/>
 </beans>

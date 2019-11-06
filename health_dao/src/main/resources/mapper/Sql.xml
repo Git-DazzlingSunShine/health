@@ -14,4 +14,27 @@
         `attention`,
         `remark`
     </sql>
+
+    <sql id="checkGroup">
+        `id`,
+        `code`,
+        `name`,
+        `sex`,
+        `helpCode`,
+        `remark`,
+        `attention`
+    </sql>
+
+    <sql id="setmeal">
+        `id`,
+        `code`,
+        `name`,
+        `sex`,
+        `helpCode`,
+        `age`,
+        `price`,
+        `remark`,
+        `attention`,
+        `img`
+    </sql>
 </mapper>

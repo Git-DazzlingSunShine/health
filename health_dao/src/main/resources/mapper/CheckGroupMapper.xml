@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yanglei.mapper.CheckGroupMapper">
+
+    <insert id="add" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO health.t_checkgroup
+        (code, name, helpCode, sex, remark, attention)
+        VALUES(
+            #{code},
+            #{name},
+            #{helpCode},
+            #{sex},
+            #{remark},
+            #{attention})
+    </insert>
+
+    <insert id="setCheckItemAndCheckGroupRelationBatch">
+        INSERT INTO health.t_checkgroup_checkitem
+        (checkgroup_id, checkitem_id)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.checkgroup_id},#{item.checkitem_id})
+        </foreach>
+    </insert>
+
+    <update id="updataGroup">
+        UPDATE health.t_checkgroup
+        SET code=#{code},name=#{name},helpCode=#{helpCode},sex=#{sex},remark=#{remark},attention=#{attention}
+        WHERE id=#{id}
+    </update>
+
+    <delete id="deleteCheckItemAndCheckGroupRelationBatch">
+        DELETE FROM health.t_checkgroup_checkitem
+        WHERE checkgroup_id=#{groupId}
+    </delete>
+
+    <delete id="deleteGroupById">
+        DELETE FROM health.t_checkgroup
+        WHERE id=#{id}
+    </delete>
+
+    <select id="findPage" resultType="CheckGroup">
+        SELECT
+        <include refid="Sql.checkGroup"/>
+        FROM health.t_checkgroup
+        <if test="word!=null and word.length()!=0">
+            WHERE code =#{word} or name=#{word} or helpCode=#{word}
+        </if>
+    </select>
+
+    <select id="findGroupById" resultType="com.yanglei.pojo.CheckGroup">
+        SELECT
+        <include refid="Sql.checkGroup"/>
+        FROM health.t_checkgroup
+        WHERE id=#{id}
+    </select>
+
+    <select id="findCheckItemsByGroupId" resultType="java.lang.Integer">
+        SELECT checkitem_id
+        FROM health.t_checkgroup_checkitem
+        WHERE checkgroup_id=#{id}
+    </select>
+
+    <select id="queryGroupByCode" resultType="com.yanglei.pojo.CheckGroup">
+        SELECT id
+        FROM health.t_checkgroup
+        WHERE code=#{code}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yanglei.mapper.SetmealMapper">
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO health.t_setmeal
+        (name, code, helpCode, sex, age, price, remark, attention, img)
+        VALUES (
+            #{name},
+            #{code},
+            #{helpCode},
+            #{sex},
+            #{age},
+            #{price},
+            #{remark},
+            #{attention},
+            #{img}
+        )
+    </insert>
+
+    <update id="setSetmealAndCheckGroupRelationBatch">
+        INSERT INTO health.t_setmeal_checkgroup
+        (setmeal_id, checkgroup_id)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.setmeal_id},#{item.checkgroup_id})
+        </foreach>
+    </update>
+
+    <update id="updateSetmeal">
+        UPDATE health.t_setmeal
+        SET
+            name=#{name},
+            code=#{code},
+            helpCode=#{helpCode},
+            sex=#{sex},
+            age=#{age},
+            price=#{price},
+            remark=#{remark},
+            attention=#{attention},
+            img=#{img}
+        WHERE id=#{id}
+    </update>
+
+    <delete id="deleteSetmealAndCheckGroupRelation">
+        DELETE FROM health.t_setmeal_checkgroup
+        WHERE setmeal_id=#{setmealId}
+    </delete>
+
+    <delete id="deletSetmealByid">
+        DELETE FROM health.t_setmeal
+        WHERE id= #{id}
+    </delete>
+
+    <select id="queryAll" resultType="Setmeal">
+        SELECT
+        <include refid="Sql.setmeal"/>
+        FROM health.t_setmeal
+        <if test="queryString!=null and queryString.length()!=0">
+            WHERE code =#{word} or name=#{word} or helpCode=#{word}
+        </if>
+
+    </select>
+
+    <select id="querySetmealById" resultType="com.yanglei.pojo.Setmeal">
+        SELECT
+        <include refid="Sql.setmeal"/>
+        FROM health.t_setmeal
+        WHERE id=#{id}
+    </select>
+
+    <select id="querySetmealAndCheckGroupRelation" resultType="java.lang.Integer">
+        SELECT checkgroup_id
+        FROM health.t_setmeal_checkgroup
+        WHERE setmeal_id=#{setmealId}
+    </select>
+</mapper>

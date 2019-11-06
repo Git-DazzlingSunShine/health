@@ -114,10 +114,6 @@
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.qiniu</groupId>
-            <artifactId>qiniu-java-sdk</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.apache.poi</groupId>
@@ -137,5 +133,11 @@
             <artifactId>hutool-all</artifactId>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.qiniu/qiniu-java-sdk -->
+        <dependency>
+            <groupId>com.qiniu</groupId>
+            <artifactId>qiniu-java-sdk</artifactId>
+            <version>7.2.27</version>
+        </dependency>
     </dependencies>
 </project>

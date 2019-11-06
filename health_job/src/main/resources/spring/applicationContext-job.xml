@@ -17,12 +17,29 @@
          http://www.springframework.org/schema/tx 
          http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <!--装配事务管理器-->
-    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource"/>
+    <!--制定任务-->
+    <bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!--任务对象-->
+        <property name="targetObject" ref="clearImages"/>
+        <!--任务执行的方法-->
+        <property name="targetMethod" value="run"></property>
     </bean>
 
-    <!--事务注解驱动-->
-    <tx:annotation-driven proxy-target-class="true" transaction-manager="transactionManager"/>
+    <!--    2、触发器-->
+    <bean class="org.springframework.scheduling.quartz.CronTriggerFactoryBean" id="cronTrigger">
+        <!--要触发那个任务-->
+        <property name="jobDetail" ref="jobDetail"></property>
+        <!--设定任务何时执行-->
+        <property name="cronExpression" value="*/5 * * * * ?"></property>
+    </bean>
 
+    <!--触发器-->
+    <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <!-- 可注入多个触发器 -->
+        <property name="triggers">
+            <list>
+                <ref bean="cronTrigger"/>
+            </list>
+        </property>
+    </bean>
 </beans>
