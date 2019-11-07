@@ -14,6 +14,7 @@ public class MessageConstant {
     public static final String DELETE_SETMEAL_FAIL = "删除检查项失败";
     public static final String CHECKITEM_EXISTED = "检查项编号已存在";
     public static final String CHECKITEM_IS_NO = "检查项编号不存在";
+    public static final String PARAM_FORMAT_ERR = "参数格式不正确";
     public static final String CHECKITEM_IS_EMPTY = "请勾选检查项";
     public static final String CHECKGROUP_IS_EMPTY = "请勾选检查组";
     public static final String EDIT_CHECKITEM_FAIL = "编辑检查项失败";

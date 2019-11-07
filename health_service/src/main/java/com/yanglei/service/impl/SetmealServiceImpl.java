@@ -78,7 +78,7 @@ public class SetmealServiceImpl implements SetmealService {
         try {
             List<Integer> checkGroupIds = setmeal.getCheckGroupIds();
             Integer setmealId = setmeal.getId();
-            setmealMapper.updateSetmeal(setmealId);
+            setmealMapper.updateSetmeal(setmeal);
             //删除套餐和检查组关联
             deleteSetmealAndCheckGroupRelation(setmealId);
             setSetmealAndCheckGroupRelation(checkGroupIds, setmealId);

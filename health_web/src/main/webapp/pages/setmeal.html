@@ -443,7 +443,7 @@
             handleEdit() {
                 // this.formData.img = this.img;
                 axios.post("/setmeal/update.do", this.formData).then((res) => {
-                    if (this.data.flag) {
+                    if (res.data.flag) {
                         this.formData = {};
                         this.dialogFormEditVisible = false;
                     }

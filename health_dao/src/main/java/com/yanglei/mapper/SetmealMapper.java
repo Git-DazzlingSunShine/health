@@ -18,7 +18,7 @@ public interface SetmealMapper {
 
     int deletSetmealByid(@Param("id") Integer id);
 
-    int updateSetmeal(@Param("id") Integer id);
+    int updateSetmeal(Setmeal setmeal);
 
     Setmeal querySetmealById(@Param("id") Integer id);
 

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yanglei.mapper.OrderSettingMapper">
+    <insert id="add">
+        INSERT INTO health.t_ordersetting
+        (orderDate, number)
+        VALUES
+        (#{orderDate},#{number})
+    </insert>
+
+    <update id="update">
+        UPDATE health.t_ordersetting
+        SET number = #{number}
+        WHERE
+        orderDate=#{orderDate}
+    </update>
+
+    <select id="queryCountByDate" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM health.t_ordersetting
+        WHERE orderDate=#{orderDate}
+    </select>
+
+    <select id="queryByMonth" resultType="OrderSetting">
+        SELECT *
+        FROM health.t_ordersetting
+        WHERE orderDate BETWEEN #{begin} AND #{end}
+    </select>
+
+</mapper>
