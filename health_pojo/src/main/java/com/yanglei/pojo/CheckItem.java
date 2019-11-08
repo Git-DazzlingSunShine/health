@@ -19,6 +19,7 @@ public class CheckItem implements Serializable {
     private String type;//检查项类型，分为检查和检验两种类型
     private String remark;//项目说明
     private String attention;//注意事项
+    private Integer checkGroupId;
 
 
 }

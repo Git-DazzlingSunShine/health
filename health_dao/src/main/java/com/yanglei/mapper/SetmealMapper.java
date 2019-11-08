@@ -1,5 +1,7 @@
 package com.yanglei.mapper;
 
+import com.yanglei.pojo.CheckGroup;
+import com.yanglei.pojo.CheckItem;
 import com.yanglei.pojo.Setmeal;
 import org.apache.ibatis.annotations.Param;
 
@@ -23,4 +25,8 @@ public interface SetmealMapper {
     Setmeal querySetmealById(@Param("id") Integer id);
 
     List<Integer> querySetmealAndCheckGroupRelation(@Param("setmealId") Integer setmealId);
+
+    List<CheckGroup> queryCheckGroupBySetmealId(@Param("id") Integer id);
+
+    List<CheckItem> queryCheckItemsByGroupIdBatch(@Param("integers") List<Integer> integers);
 }

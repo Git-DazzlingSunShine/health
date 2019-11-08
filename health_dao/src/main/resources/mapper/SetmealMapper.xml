@@ -76,4 +76,32 @@
         FROM health.t_setmeal_checkgroup
         WHERE setmeal_id=#{setmealId}
     </select>
+
+    <select id="queryCheckGroupBySetmealId" resultType="com.yanglei.pojo.CheckGroup">
+        SELECT b.* FROM health.t_setmeal_checkgroup a
+        LEFT JOIN health.t_checkgroup b
+        ON a.checkgroup_id=b.id
+        WHERE a.setmeal_id=#{id}
+
+    </select>
+
+    <select id="queryCheckItemsByGroupIdBatch" resultType="com.yanglei.pojo.CheckItem">
+        SELECT
+            b.*,a.checkgroup_id as checkGroupId
+        FROM
+            health.t_checkgroup_checkitem a
+        LEFT JOIN
+            health.t_checkitem b
+        ON
+            a.checkitem_id=b.id
+        WHERE
+            a.checkgroup_id
+        IN
+        <foreach collection="integers" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+
+    </select>
+
+
 </mapper>

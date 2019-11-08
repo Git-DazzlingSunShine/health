@@ -18,19 +18,19 @@
          http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <!--制定任务-->
-    <bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    <bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <!--任务对象-->
         <property name="targetObject" ref="clearImages"/>
         <!--任务执行的方法-->
-        <property name="targetMethod" value="run"></property>
+        <property name="targetMethod" value="run"/>
     </bean>
 
     <!--    2、触发器-->
     <bean class="org.springframework.scheduling.quartz.CronTriggerFactoryBean" id="cronTrigger">
         <!--要触发那个任务-->
-        <property name="jobDetail" ref="jobDetail"></property>
+        <property name="jobDetail" ref="jobDetail"/>
         <!--设定任务何时执行-->
-        <property name="cronExpression" value="*/5 * * * * ?"></property>
+        <property name="cronExpression" value="*/5 * * * * ?"/>
     </bean>
 
     <!--触发器-->

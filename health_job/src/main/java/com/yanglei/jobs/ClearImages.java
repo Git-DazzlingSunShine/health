@@ -20,7 +20,8 @@ public class ClearImages {
             //删除七牛
             QiniuUtil.delete(img);
             //删除缓存中的图片
-            jedisPool.getResource().srem(RedisConstant.SETMEAL_PIC_RESOURCES,img);
+            Long srem = jedisPool.getResource().srem(RedisConstant.SETMEAL_PIC_RESOURCES, img);
+            System.out.println("srem = " + srem);
         }
     }
 }

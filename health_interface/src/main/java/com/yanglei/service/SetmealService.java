@@ -5,6 +5,8 @@ import com.yanglei.entry.QueryPageBean;
 import com.yanglei.entry.Result;
 import com.yanglei.pojo.Setmeal;
 
+import java.util.List;
+
 public interface SetmealService {
 
     /**
@@ -26,5 +28,11 @@ public interface SetmealService {
     Result update(Setmeal setmeal);
 
     Result querySetmealById(Integer id);
+
+    List<Setmeal> getSetmeal();
+
+    Setmeal findById(Integer id);
+
+    public Setmeal findByIdStream(Integer id);
 
 }

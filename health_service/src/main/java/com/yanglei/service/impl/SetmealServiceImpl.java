@@ -1,6 +1,6 @@
 package com.yanglei.service.impl;
 
-import cn.hutool.json.JSONObject;
+import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -11,6 +11,7 @@ import com.yanglei.entry.Result;
 import com.yanglei.mapper.CheckGroupMapper;
 import com.yanglei.mapper.SetmealMapper;
 import com.yanglei.pojo.CheckGroup;
+import com.yanglei.pojo.CheckItem;
 import com.yanglei.pojo.Setmeal;
 import com.yanglei.service.SetmealService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service(interfaceClass = SetmealService.class)
 public class SetmealServiceImpl implements SetmealService {
@@ -105,6 +107,61 @@ public class SetmealServiceImpl implements SetmealService {
         }
 
     }
+
+    @Override
+    public List<Setmeal> getSetmeal() {
+        return setmealMapper.queryAll(null);
+    }
+
+    @Override
+    public Setmeal findById(Integer id) {
+        Setmeal setmeal = setmealMapper.querySetmealById(id);
+        if (null != setmeal) {
+            List<CheckGroup> checkGroups = setmealMapper.queryCheckGroupBySetmealId(setmeal.getId());
+            if (CollectionUtil.isNotEmpty(checkGroups)) {
+                List<Integer> integers = setmealMapper.querySetmealAndCheckGroupRelation(id);
+                List<CheckItem> checkItems = setmealMapper.queryCheckItemsByGroupIdBatch(integers);
+                Map<Integer, List<CheckItem>> map = new HashMap<>();
+                for (CheckItem checkItem : checkItems) {
+                    Integer checkGroupId = checkItem.getCheckGroupId();
+                    List<CheckItem> list = map.get(checkGroupId);
+                    if (null == list) {
+                        list = new ArrayList<>();
+                    }
+                    list.add(checkItem);
+                    map.put(checkGroupId, list);
+                }
+
+                for (CheckGroup checkGroup : checkGroups) {
+                    checkGroup.setCheckItems(map.get(checkGroup));
+                }
+                setmeal.setCheckGroups(checkGroups);
+            }
+        }
+        return setmeal;
+    }
+
+    @Override
+    public Setmeal findByIdStream(Integer id) {
+        Setmeal setmeal = setmealMapper.querySetmealById(id);
+        if (null != setmeal) {
+            List<CheckGroup> checkGroups = setmealMapper.queryCheckGroupBySetmealId(setmeal.getId());
+            if (CollectionUtil.isNotEmpty(checkGroups)) {
+                List<Integer> integers = setmealMapper.querySetmealAndCheckGroupRelation(id);
+                List<CheckItem> checkItems = setmealMapper.queryCheckItemsByGroupIdBatch(integers);
+                Map<Integer, List<CheckItem>> map = new HashMap<>();
+
+                map = checkItems.stream().collect(Collectors.groupingBy(CheckItem::getCheckGroupId));
+
+                for (CheckGroup checkGroup : checkGroups) {
+                    checkGroup.setCheckItems(map.get(checkGroup));
+                }
+                setmeal.setCheckGroups(checkGroups);
+            }
+        }
+        return setmeal;
+    }
+
 
     //插入检查套餐和检查组的关系
     public int setSetmealAndCheckGroupRelation(List<Integer> checkGroupIds, Integer setmealId) {

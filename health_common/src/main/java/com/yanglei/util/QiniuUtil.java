@@ -15,7 +15,7 @@ public class QiniuUtil {
     static String accessKey = "oJyRdThYFKs4Eb6ocPZGr1M2yU4xtE4OYFHiDgF8";
     static String secretKey = "KXZLpPITxdmp49kHG9hV4Eg-k_zN22cj1sniyNvS";
     //自己创建的存储空间名称
-    static String bucket = "heimahealth01";
+    static String bucket = "yangdaleilei";
 
     /**
      * 文件上传
