@@ -5,6 +5,7 @@ package com.yanglei.content;
  */
 public class MessageConstant {
     public static final String ADD_CHECKGROUP_FAIL = "新增检查组失败";
+    public static final String LOGIN_WELCOME = "欢迎回来！";
     public static final String ADD_CHECKGROUP_SUCCESS = "新增检查组成功";
     public static final String ADD_CHECKITEM_SUCCESS = "新增检查项成功";
     public static final String ADD_CHECKITEM_FAIL = "新增检查项失败";

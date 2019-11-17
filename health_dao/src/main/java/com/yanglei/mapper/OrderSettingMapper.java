@@ -18,5 +18,9 @@ public interface OrderSettingMapper {
 
     List<OrderSetting> queryByMonth(@Param("begin") String begin, @Param("end") String end);
 
-    Result setNumberByBatch(MultipartFile excelFile);
+    OrderSetting queryOrderSettingByDate(@Param("orderDate") Date orderDate);
+
+    int updateReservationsVersion(@Param("id") Integer id, @Param("version") Long version);
+
+//    Result setNumberByBatch(MultipartFile excelFile);
 }

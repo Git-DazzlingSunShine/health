@@ -21,7 +21,7 @@
     <mvc:annotation-driven/>
 
     <!-- dubbo包扫描-->
-    <dubbo:annotation package="com.yanglei.mobile"/>
+    <dubbo:annotation package="com.yanglei.mobile,com.yanglei.util"/>
     <!--    注册中心-->
     <dubbo:registry address="zookeeper://152.136.110.27:2181"/>
     <!--    应用名称-->
@@ -29,7 +29,5 @@
     <!--    消费端启动检查-->
     <dubbo:consumer check="false" timeout="1200000"/>
 
-
-<!--    <import resource="applicationContext-redis.xml"/>-->
-
+    <import resource="applicationContext-redis.xml"/>
 </beans>

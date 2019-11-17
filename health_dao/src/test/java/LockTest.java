@@ -1,3 +1,10 @@
+import org.junit.Test;
+import sun.tools.tree.Node;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -29,4 +36,10 @@ public class LockTest {
         System.out.println("乐观锁(AtomicInteger)：" + value2);
         System.out.println("悲观锁(synchronized)：" + value3);
     }
+
+    @Test
+    public void test() {
+
+    }
+
 }

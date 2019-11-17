@@ -35,4 +35,5 @@ public interface SetmealService {
 
     public Setmeal findByIdStream(Integer id);
 
+    Setmeal onlyQuerySermealById(Integer id);
 }

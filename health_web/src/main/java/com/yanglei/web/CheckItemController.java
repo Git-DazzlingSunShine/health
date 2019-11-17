@@ -1,6 +1,7 @@
 package com.yanglei.web;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.yanglei.annotation.SystemWebLog;
 import com.yanglei.content.MessageConstant;
 import com.yanglei.entry.PageResult;
 import com.yanglei.entry.QueryPageBean;
@@ -8,6 +9,8 @@ import com.yanglei.entry.Result;
 import com.yanglei.exception.ForeignAssociationException;
 import com.yanglei.pojo.CheckItem;
 import com.yanglei.service.CheckItemService;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +31,8 @@ public class CheckItemController {
      * @return
      */
     @RequestMapping("add")
+    @SystemWebLog(description = "添加检查项")
+    @PreAuthorize("hasAuthority('CHECKGROUP_ADD')")
     public Result add(@RequestBody CheckItem checkItem) {
         Result result = codeUnique(checkItem.getCode());
         if (!result.isFlag()) {
@@ -87,6 +92,8 @@ public class CheckItemController {
      * @return
      */
     @RequestMapping("update")
+    @SystemWebLog(description = "修改检查项")
+    @PreAuthorize("hasAuthority('CHECKGROUP_EDIT')")
     public Result update(@RequestBody CheckItem checkItem) {
         try {
             boolean update = checkItemService.updateByCode(checkItem);
@@ -103,6 +110,8 @@ public class CheckItemController {
      * @return
      */
     @RequestMapping("delete")
+    @SystemWebLog(description = "删除检查项")
+    @PreAuthorize("hasAuthority('CHECKGROUP_DELETE')")
     public Result deleteByCode(Integer id) {
         Result result = new Result(false, MessageConstant.DELETE_CHECKITEM_FAIL);
         try {

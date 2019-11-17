@@ -17,6 +17,7 @@
     <script src="../js/vue.js"></script>
     <script src="../plugins/elementui/index.js"></script>
     <script src="../js/axios-0.18.0.js"></script>
+    <script src="../js/interceptor.js"></script>
     <style>
         .datatable {
             position: relative;
@@ -297,7 +298,13 @@
                         type: res.data.flag ? 'success' : "error",
                         message: res.data.message
                     });
-                })
+                }).catch((error)=>{
+                    if (error.response.status === 403) {
+                        this.$message.error("没有操作权限，请联系管理员！");
+                    } else {
+                        this.$message.error("未知错误！")
+                    }
+                });
             },
             //添加
             handleAdd() {

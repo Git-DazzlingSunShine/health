@@ -115,13 +115,18 @@ public class SetmealServiceImpl implements SetmealService {
 
     @Override
     public Setmeal findById(Integer id) {
+        //查询套餐
         Setmeal setmeal = setmealMapper.querySetmealById(id);
         if (null != setmeal) {
+            //查询套餐下的所有检查组
             List<CheckGroup> checkGroups = setmealMapper.queryCheckGroupBySetmealId(setmeal.getId());
             if (CollectionUtil.isNotEmpty(checkGroups)) {
+                //套餐和检查组ids
                 List<Integer> integers = setmealMapper.querySetmealAndCheckGroupRelation(id);
+                //检查组对应的所有检查项
                 List<CheckItem> checkItems = setmealMapper.queryCheckItemsByGroupIdBatch(integers);
                 Map<Integer, List<CheckItem>> map = new HashMap<>();
+
                 for (CheckItem checkItem : checkItems) {
                     Integer checkGroupId = checkItem.getCheckGroupId();
                     List<CheckItem> list = map.get(checkGroupId);
@@ -160,6 +165,11 @@ public class SetmealServiceImpl implements SetmealService {
             }
         }
         return setmeal;
+    }
+
+    @Override
+    public Setmeal onlyQuerySermealById(Integer id) {
+        return setmealMapper.querySetmealById(id);
     }
 
 

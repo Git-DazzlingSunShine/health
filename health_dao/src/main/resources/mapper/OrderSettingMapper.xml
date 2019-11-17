@@ -17,6 +17,14 @@
         orderDate=#{orderDate}
     </update>
 
+    <!--更新预约人数-->
+    <update id="updateReservationsVersion">
+        UPDATE health.t_ordersetting
+        SET reservations=reservations+1,version=version+1
+        WHERE id=#{id} AND version=#{version}
+    </update>
+
+
     <select id="queryCountByDate" resultType="java.lang.Integer">
         SELECT COUNT(*)
         FROM health.t_ordersetting
@@ -27,6 +35,12 @@
         SELECT *
         FROM health.t_ordersetting
         WHERE orderDate BETWEEN #{begin} AND #{end}
+    </select>
+
+    <select id="queryOrderSettingByDate" resultType="com.yanglei.pojo.OrderSetting">
+        SELECT *
+        FROM health.t_ordersetting
+        WHERE orderDate=#{orderDate}
     </select>
 
 </mapper>

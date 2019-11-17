@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>传智健康</title>
+    <meta name="description" content="传智健康">
+    <meta name="keywords" content="传智健康">
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="../plugins/elementui/index.css">
+    <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- 引入组件库 -->
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script src="../js/vue.js"></script>
+    <script src="../plugins/elementui/index.js"></script>
+    <script src="../js/axios-0.18.0.js"></script>
+    <script src="../js/interceptor.js"></script>
+    <style>
+        .datatable {
+            position: relative;
+            box-sizing: border-box;
+            -webkit-box-flex: 1;
+            width: 100%;
+            max-width: 100%;
+            font-size: 14px;
+            color: rgb(96, 98, 102);
+            overflow: hidden;
+            flex: 1 1 0%;
+        }
+
+        .datatable td, .datatable th {
+            padding: 12px 0;
+            min-width: 0;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            text-overflow: ellipsis;
+            vertical-align: middle;
+            position: relative;
+            text-align: left;
+        }
+    </style>
+</head>
+<body class="hold-transition">
+<div id="app">
+    <div class="content-header">
+        <h1>系统设置
+            <small>系统日志</small>
+        </h1>
+        <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">
+            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item>预约管理</el-breadcrumb-item>
+            <el-breadcrumb-item>检查组管理</el-breadcrumb-item>
+        </el-breadcrumb>
+    </div>
+    <div class="app-container">
+        <div class="box">
+            <el-table size="small" current-row-key="id" :data="dataList" stripe highlight-current-row>
+                <el-table-column type="index" align="center" label="序号"></el-table-column>
+                <el-table-column prop="operationName" label="操作人" align="center"></el-table-column>
+                <el-table-column prop="operationDate" label="操作时间" align="center"></el-table-column>
+                <el-table-column prop="orderType" label="操作类型" align="center"></el-table-column>
+                <el-table-column prop="operationIp" label="操作人ip地址" align="center"></el-table-column>
+            </el-table>
+
+            <div class="pagination-container">
+                <el-pagination
+                        class="pagiantion"
+                        @current-change="handleCurrentChange"
+                        :current-page="pagination.currentPage"
+                        :page-size="pagination.pageSize"
+                        layout="total, prev, pager, next, jumper"
+                        :total="pagination.total">
+                </el-pagination>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    var vue = new Vue({
+            el: '#app',
+            data: {
+                pagination: {//分页相关属性
+                    currentPage: 1,
+                    pageSize: 10,
+                    total: null,
+                    queryString: null,
+                },
+                dataList: [],//列表数据
+            },
+            created() {
+                this.findPage();
+            },
+            methods: {
+                findPage() {
+                    axios.post("/systemlog/queryLog.do", this.pagination).then((res) => {
+                        this.dataList=res.data.rows;
+                        this.pagination.total=res.data.total;
+                    });
+                },
+                handleCurrentChange(currentPage) {
+                    this.pagination.currentPage = currentPage;
+                    this.findPage();
+                }
+            }
+        },
+    );
+
+</script>
+</html>

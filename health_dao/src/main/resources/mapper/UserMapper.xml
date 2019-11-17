@@ -10,4 +10,10 @@
         SELECT * FROM tb_user
     </select>
 
+    <select id="queryUserByUserName" resultType="com.yanglei.pojo.User">
+        SELECT id, username,password
+        FROM health.t_user
+        WHERE username=#{username}
+    </select>
+
 </mapper>

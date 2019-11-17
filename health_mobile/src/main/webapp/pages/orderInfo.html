@@ -21,6 +21,19 @@
         <script>
             var id = getUrlParam("id");
         </script>
+        <script>
+            // request拦截器：对请求参数做监听和处理
+            axios.interceptors.request.use(
+                config => {
+                    console.log(config);
+                    return config;
+                },
+                error => {//请求错误处理
+                    return Promise.reject(error.response);
+                }
+            );
+
+        </script>
     </head>
     <body data-spy="scroll" data-target="#myNavbar" data-offset="150">
         <div id="app" class="app">
@@ -34,7 +47,7 @@
             <div class="contentBox">
                 <div class="card">
                     <div class="">
-                        <img :src="'http://pqjroc654.bkt.clouddn.com/'+setmeal.img" width="100%" height="100%" />
+                        <img :src="'http://q0n75rbc2.bkt.clouddn.com/'+setmeal.img" width="100%" height="100%" />
                     </div>
                     <div class="project-text">
                         <h4 class="tit">{{setmeal.name}}</h4>
@@ -76,7 +89,7 @@
                         <div class="input-row">
                             <label>手机号</label>
                             <input v-model="orderInfo.telephone" type="text" class="input-clear" placeholder="请输入手机号">
-                            <input style="font-size: x-small;" id="validateCodeButton" @click="sendValidateCode()" type="button" value="发送验证码">
+                            <input style="font-size: x-small;" ref="validateCodeButton" @click="sendValidateCode()" type="button" value="发送验证码">
                         </div>
                         <div class="input-row">
                             <label>验证码</label>
@@ -105,7 +118,8 @@
                     setmeal:{},//套餐信息
                     orderInfo:{
                         setmealId:id,
-                        sex:'1'
+                        sex:'1',
+                        token:null
                     }//预约信息
                 },
                 methods:{
@@ -118,7 +132,7 @@
                             this.$message.error('请输入正确的手机号');
                             return false;
                         }
-                        validateCodeButton = $("#validateCodeButton")[0];
+                        validateCodeButton =this.$refs.validateCodeButton;
                         clock = window.setInterval(doLoop, 1000); //一秒执行一次
                         axios.post("/validateCode/send4Order.do?telephone=" + telephone).then((response) => {
                             if(!response.data.flag){
@@ -146,9 +160,13 @@
                     }
                 },
                 mounted(){
-                    axios.post("/setmeal/findById.do?id=" + id).then((response) => {
+                    axios.post("/setmeal/onlyQuerySetmealById.do?id=" + id).then((response) => {
                         this.setmeal = response.data.data;
                     });
+
+                    axios.get("/setmeal/getToken.do").then((res)=>{
+                        this.orderInfo.token=res.data.data;
+                    })
                 }
             });
         </script>

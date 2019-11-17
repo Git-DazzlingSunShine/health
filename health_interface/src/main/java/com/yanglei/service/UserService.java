@@ -7,4 +7,6 @@ import java.util.List;
 public interface UserService {
 
     public List<User> selectAllUser();
+
+    User queryUserByUserName(String username);
 }
